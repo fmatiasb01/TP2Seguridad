@@ -1,0 +1,28 @@
+{
+  "name": "tp2-seguridad-openweather",
+  "version": "1.0.0",
+  "description": "App mínima Node.js para el TP de Seguridad: consumo OpenWeather, CI/CD seguro con GitHub Actions y gestión de claves.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --coverage",
+    "simulate-deploy": "node scripts/simulate-deploy.js",
+    "rotate-secrets": "node scripts/rotate-secrets.js",
+    "lint": "echo \"Add lint step if desired\""
+  },
+  "keywords": [
+    "openweather",
+    "ci-cd",
+    "github-actions",
+    "security"
+  ],
+  "author": "Matias Bertoldo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.0"
+  }
+}
