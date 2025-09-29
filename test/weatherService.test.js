@@ -1,16 +1,20 @@
 // test/weatherService.test.js
 const axios = require('axios');
-const { getCurrentWeatherByCity } = require('../src/weatherService');
-
 jest.mock('axios');
 
 describe('weatherService', () => {
   afterEach(() => {
     jest.resetAllMocks();
+    // limpiar variables para no contaminar otros tests
+    delete process.env.OPENWEATHER_API_KEY;
   });
 
   test('getCurrentWeatherByCity returns transformed weather info', async () => {
+    // Establecemos la API key de prueba ANTES de requerir el módulo
     process.env.OPENWEATHER_API_KEY = 'test-key';
+
+    // Ahora require el módulo que usa process.env
+    const { getCurrentWeatherByCity } = require('../src/weatherService');
 
     const fakeResponse = {
       data: {
@@ -30,12 +34,16 @@ describe('weatherService', () => {
       temp: 22.5
     });
 
-    // Aseguramos que axios se llamó con el endpoint correcto
     expect(axios.get).toHaveBeenCalled();
   });
 
   test('throws error when API key missing', async () => {
+    // Aseguramos que la variable NO está presente
     delete process.env.OPENWEATHER_API_KEY;
+
+    // Re-require del módulo para reflejar el nuevo estado
+    jest.resetModules();
+    const { getCurrentWeatherByCity } = require('../src/weatherService');
 
     await expect(getCurrentWeatherByCity('City')).rejects.toThrow('OpenWeather API key not configured.');
   });
